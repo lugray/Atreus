@@ -79,7 +79,7 @@ KEYMAPS(
   ),
   [L_FN]=KEYMAP(
     Key_1,   Key_2,     Key_3,    Key_4,  Key_5, /**/     /**/       Key_6,  Key_7,  Key_8,     Key_9,      Key_0,
-    WinLeft, ___,       WinRight, ___,    ___,   /**/     /**/       Left,   Down,   Up,        Right,      ___,
+    WinLeft, ___,       WinRight, ___,    ___,   /**/     /**/       Left,   Down,   Up,        Right,      Key_Equals,
     ___,     ___,       ___,      ___,    ___,   Key_Esc, WinMax,    ___,    ___,    ___,       ___,        ___,
     ___,     ___,       ___,      ___,    Del,   ___,     ___,       ___,    ___,    ___,       ___,        Key_Enter
   )
