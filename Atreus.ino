@@ -68,25 +68,28 @@
 #define RBracket Key_RightBracket
 
 
-enum {
-  L_QW,
-  L_FN
-};
+enum { L_QW, L_FN, L_M };
 enum { M_ESC, M_1, M_2, M_O, M_UP }; // Macros
 
 KEYMAPS(
   [L_QW]=KEYMAP(
-    Key_Q,   Key_W,     Key_E,    Key_R, Key_T, /**/       /**/       Key_Y,  Key_U, Key_I,     Key_O,      Key_P,
-    Key_A,   Key_S,     Key_D,    Key_F, Key_G, /**/       /**/       Key_H,  Key_J, Key_K,     Key_L,      Key_Colon,
-    Key_Z,   Key_X,     Key_C,    Key_V, Key_B, Key_NoKey, Key_NoKey, Key_N,  Key_M, Key_Comma, Key_Period, Key_Quote,
-    Key_Esc, Key_Minus, LCtrl,    LCmd,  BkSpc, LShift,    RShift,    SpcBar, RCmd,  RCtrl,     Key_Slash,  Key_Equals
+    Key_Q,    Key_W,     Key_E,    Key_R, Key_T, /**/       /**/        Key_Y,  Key_U, Key_I,     Key_O,      Key_P,
+    Key_A,    Key_S,     Key_D,    Key_F, Key_G, /**/       /**/        Key_H,  Key_J, Key_K,     Key_L,      Key_Colon,
+    Key_Z,    Key_X,     Key_C,    Key_V, Key_B, Key_NoKey, Underscore, Key_N,  Key_M, Key_Comma, Key_Period, Key_Quote,
+    Key_Esc,  Key_Minus, LCtrl,    LCmd,  BkSpc, LShift,    RShift,     SpcBar, RCmd,  RCtrl,     Key_Slash,  Key_Equals
   ),
   [L_FN]=KEYMAP(
-    Key_1,   Key_2,     Key_3,    Key_4, Key_5, /**/       /**/       Key_6,  Key_7, Key_8,     Key_9,      Key_0,
-    WinLeft, ___,       WinRight, ___,   ___,   /**/       /**/       Left,   Down,  Up,        Right,      BckTick,
-    ___,     ___,       ___,      ___,   ___,   BckTick,   WinMax,    ___,    Mute,  VolDown,   VolUp,      BckSlash,
-    ___,     ___,       ___,      ___,   Del,   ___,       ___,       ___,    ___,   ___,       ___,        Key_Enter
-  )
+    Key_1,    Key_2,     Key_3,    Key_4, Key_5, /**/       /**/        Key_6,  Key_7, Key_8,     Key_9,      Key_0,
+    WinLeft,  ___,       WinRight, ___,   ___,   /**/       /**/        Left,   Down,  Up,        Right,      BckTick,
+    ___,      ___,       ___,      ___,   ___,   BckTick,   WinMax,     ___,    Mute,  VolDown,   VolUp,      BckSlash,
+    ___,      ___,       ___,      ___,   Del,   ___,       ___,        ___,    ___,   ___,       ___,        Sleep
+  ),
+  [L_M]=KEYMAP(
+    M(M_ESC), M(M_1),    M(M_2),   ___,   ___,   /**/       /**/        ___,    ___,   ___,       M(M_O),     ___,
+    ___,      ___,       ___,      ___,   ___,   /**/       /**/        ___,    ___,   ___,       ___,        ___,
+    ___,      ___,       ___,      ___,   ___,   ___,       ___,        ___,    ___,   ___,       ___,        ___,
+    ___,      ___,       ___,      ___,   ___,   ___,       ___,        ___,    ___,   ___,       ___,        ___
+  ),
 )
 /* *INDENT-ON* */
 
@@ -107,6 +110,7 @@ const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
 KALEIDOSCOPE_INIT_PLUGINS(
   TopsyTurvy,
   Qukeys,
+  Macros,
   Chord
 );
 
@@ -120,7 +124,8 @@ void setup() {
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 8), RBrace),
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 9), RBracket),
 
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 7), STL(L_FN))
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 4), STL(L_M)),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 7), STL(L_FN)),
   )
   CHORDS(
     CHORD(Key_J, Key_K), Key_Escape,
