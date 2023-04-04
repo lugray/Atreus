@@ -24,6 +24,9 @@
 #include "Kaleidoscope.h"
 #include <Kaleidoscope-Qukeys.h>
 #include "Kaleidoscope-TopsyTurvy.h"
+#include <Kaleidoscope-Chord.h>
+#include "Kaleidoscope-Macros.h"
+#include "macros.h"
 
 #define STL(n) ShiftToLayer(n)
 #define TG(n) LockLayer(n)
@@ -69,39 +72,61 @@ enum {
   L_QW,
   L_FN
 };
+enum { M_ESC, M_1, M_2, M_O, M_UP }; // Macros
 
 KEYMAPS(
   [L_QW]=KEYMAP(
-    Key_Q,   Key_W,     Key_E,    Key_R,  Key_T, /**/     /**/       Key_Y,  Key_U,  Key_I,     Key_O,      Key_P,
-    Key_A,   Key_S,     Key_D,    Key_F,  Key_G, /**/     /**/       Key_H,  Key_J,  Key_K,     Key_L,      Key_Colon,
-    Key_Z,   Key_X,     Key_C,    Key_V,  Key_B, Key_Tab, Key_Enter, Key_N,  Key_M,  Key_Comma, Key_Period, Key_Slash,
-    BckTick, Key_Minus, LBracket, LBrace, BkSpc, LParen,  RParen,    SpcBar, RBrace, RBracket,  Key_Quote,  BckSlash
+    Key_Q,   Key_W,     Key_E,    Key_R, Key_T, /**/       /**/       Key_Y,  Key_U, Key_I,     Key_O,      Key_P,
+    Key_A,   Key_S,     Key_D,    Key_F, Key_G, /**/       /**/       Key_H,  Key_J, Key_K,     Key_L,      Key_Colon,
+    Key_Z,   Key_X,     Key_C,    Key_V, Key_B, Key_NoKey, Key_NoKey, Key_N,  Key_M, Key_Comma, Key_Period, Key_Quote,
+    Key_Esc, Key_Minus, LCtrl,    LCmd,  BkSpc, LShift,    RShift,    SpcBar, RCmd,  RCtrl,     Key_Slash,  Key_Equals
   ),
   [L_FN]=KEYMAP(
-    Key_1,   Key_2,     Key_3,    Key_4,  Key_5, /**/     /**/       Key_6,  Key_7,  Key_8,     Key_9,      Key_0,
-    WinLeft, ___,       WinRight, ___,    ___,   /**/     /**/       Left,   Down,   Up,        Right,      Key_Equals,
-    ___,     ___,       ___,      ___,    ___,   Key_Esc, WinMax,    ___,    ___,    ___,       ___,        ___,
-    ___,     ___,       ___,      ___,    Del,   ___,     ___,       ___,    ___,    ___,       ___,        Key_Enter
+    Key_1,   Key_2,     Key_3,    Key_4, Key_5, /**/       /**/       Key_6,  Key_7, Key_8,     Key_9,      Key_0,
+    WinLeft, ___,       WinRight, ___,   ___,   /**/       /**/       Left,   Down,  Up,        Right,      BckTick,
+    ___,     ___,       ___,      ___,   ___,   BckTick,   WinMax,    ___,    Mute,  VolDown,   VolUp,      BckSlash,
+    ___,     ___,       ___,      ___,   Del,   ___,       ___,       ___,    ___,   ___,       ___,        Key_Enter
   )
 )
 /* *INDENT-ON* */
 
+const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
+  if (!keyToggledOn(event.state)) {
+    return MACRO_NONE;
+  }
+  switch(macro_id) {
+    case M_ESC: MACRO_ESC;
+    case M_1: MACRO_1;
+    case M_2: MACRO_2;
+    case M_O: MACRO_O;
+    case M_UP: return Macros.type(PSTR("../"));
+  }
+  return MACRO_NONE;
+}
+
 KALEIDOSCOPE_INIT_PLUGINS(
+  TopsyTurvy,
   Qukeys,
-  TopsyTurvy
+  Chord
 );
 
 void setup() {
   QUKEYS(
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 2), LCtrl),
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 3), LCmd),
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 5), LShift),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 2), LBracket),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 3), LBrace),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 5), LParen),
 
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 6), RShift),
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 8), RCmd),
-    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 9), RCtrl),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 6), RParen),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 8), RBrace),
+    kaleidoscope::plugin::Qukey(0, KeyAddr(3, 9), RBracket),
 
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 7), STL(L_FN))
+  )
+  CHORDS(
+    CHORD(Key_J, Key_K), Key_Escape,
+    CHORD(Key_K, Key_L), Key_Enter,
+    CHORD(Key_D, Key_F), Key_Tab,
+    CHORD(Key_S, Key_D), M(M_UP),
   )
   Kaleidoscope.setup();
 }
