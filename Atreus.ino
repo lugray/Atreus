@@ -40,6 +40,7 @@
 #define VolDown Consumer_VolumeDecrement
 #define VolUp Consumer_VolumeIncrement
 #define LAlt Key_LeftAlt
+#define RAlt Key_RightAlt
 #define LCtrl Key_LeftControl
 #define RCtrl Key_RightControl
 #define LCmd Key_LeftGui
@@ -66,43 +67,74 @@
 #define RBrace TOPSY(RightBracket)
 #define LBracket Key_LeftBracket
 #define RBracket Key_RightBracket
+#define SpaceRight LCTRL(Right)
+#define SpaceLeft LCTRL(Left)
+#define AM(x) LALT(LSHIFT(Key_ ## x))
+#define AM2(x) LCTRL(LALT(LSHIFT(Key_ ## x))
+#define AM_MAKE_MAIN AM(Enter)
+#define AM_NEXT AM(J)
+#define AM_PREV AM(K)
+#define AM_TALL AM(A)
+#define AM_WIDE AM(S)
+#define AM_FULLSCREEN AM(D)
+#define AM_SMALLER AM(H)
+#define AM_BIGGER AM(L)
 
+constexpr Key KMod{kaleidoscope::ranges::SAFE_START};
 
-enum { L_QW, L_FN, L_M };
-enum { M_ESC, M_1, M_2, M_O, M_UP }; // Macros
+enum { L_QW, L_FN, L_M, L_NUM }; // Layers
+enum { M_ESC, M_1, M_2, M_F, M_G, M_UP }; // Macros
 
 KEYMAPS(
   [L_QW]=KEYMAP(
-    Key_Q,    Key_W,     Key_E,    Key_R, Key_T, /**/       /**/        Key_Y,  Key_U, Key_I,     Key_O,      Key_P,
-    Key_A,    Key_S,     Key_D,    Key_F, Key_G, /**/       /**/        Key_H,  Key_J, Key_K,     Key_L,      Key_Colon,
-    Key_Z,    Key_X,     Key_C,    Key_V, Key_B, Key_NoKey, Underscore, Key_N,  Key_M, Key_Comma, Key_Period, Key_Quote,
-    Key_Esc,  Key_Minus, LCtrl,    LCmd,  BkSpc, LShift,    RShift,     SpcBar, RCmd,  RCtrl,     Key_Slash,  Key_Equals
+    Key_Q,      Key_W,     Key_E,         Key_R,     Key_T,  /**/        /**/          Key_Y,  Key_U, Key_I,     Key_O,      Key_P,
+    Key_A,      Key_S,     Key_D,         Key_F,     Key_G,  /**/        /**/          Key_H,  Key_J, Key_K,     Key_L,      Key_Colon,
+    Key_Z,      Key_X,     Key_C,         Key_V,     Key_B,  STL(L_NUM), Underscore,   Key_N,  Key_M, Key_Comma, Key_Period, Key_Quote,
+    Key_Esc,    Key_Minus, LCtrl,         LCmd,      BkSpc,  LShift,     RShift,       SpcBar, RCmd,  RAlt,      Key_Slash,  Key_Equals
   ),
   [L_FN]=KEYMAP(
-    Key_1,    Key_2,     Key_3,    Key_4, Key_5, /**/       /**/        Key_6,  Key_7, Key_8,     Key_9,      Key_0,
-    WinLeft,  ___,       WinRight, ___,   ___,   /**/       /**/        Left,   Down,  Up,        Right,      BckTick,
-    ___,      ___,       ___,      ___,   ___,   BckTick,   WinMax,     ___,    Mute,  VolDown,   VolUp,      BckSlash,
-    ___,      ___,       ___,      ___,   Del,   ___,       ___,        ___,    ___,   ___,       ___,        Sleep
+    Key_1,      Key_2,     Key_3,         Key_4,     Key_5,  /**/        /**/          Key_6,  Key_7, Key_8,     Key_9,      Key_0,
+    BckTick,    ___,       ___,           ___,       ___,    /**/        /**/          Left,   Down,  Up,        Right,      BckTick,
+    ___,        ___,       ___,           ___,       ___,    SpaceLeft,  SpaceRight,   ___,    Mute,  VolDown,   VolUp,      BckSlash,
+    ___,        ___,       ___,           ___,       Del,    ___,        ___,          ___,    ___,   ___,       ___,        Sleep
   ),
   [L_M]=KEYMAP(
-    M(M_ESC), M(M_1),    M(M_2),   ___,   ___,   /**/       /**/        ___,    ___,   ___,       M(M_O),     ___,
-    ___,      ___,       ___,      ___,   ___,   /**/       /**/        ___,    ___,   ___,       ___,        ___,
-    ___,      ___,       ___,      ___,   ___,   ___,       ___,        ___,    ___,   ___,       ___,        ___,
-    ___,      ___,       ___,      ___,   ___,   ___,       ___,        ___,    ___,   ___,       ___,        ___
+    M(M_ESC),   M(M_1),    M(M_2),        ___,       ___,    /**/        /**/          ___,    ___,   ___,       ___,        ___,
+    ___,        ___,       ___,           M(M_F),    M(M_G), /**/        /**/          ___,    ___,   ___,       ___,        ___,
+    ___,        ___,       ___,           ___,       ___,    ___,        ___,          ___,    ___,   ___,       ___,        ___,
+    KMod,       ___,       ___,           ___,       ___,    ___,        ___,          ___,    ___,   ___,       ___,        ___
+  ),
+  [L_NUM]=KEYMAP(
+    AM_SMALLER, AM_NEXT,   AM_PREV,       AM_BIGGER, ___,    /**/        /**/          ___,    Key_7, Key_8,     Key_9,      ___,
+    AM_TALL,    AM_WIDE,   AM_FULLSCREEN, ___,       ___,    /**/        /**/          ___,    Key_4, Key_5,     Key_6,      ___,
+    ___,        ___,       ___,           ___,       ___,    ___,        AM_MAKE_MAIN, ___,    Key_1, Key_2,     Key_3,      Key_Enter,
+    ___,        ___,       ___,           ___,       ___,    ___,        ___,          ___,    Key_0, ___,       Key_Period, ___
   ),
 )
 /* *INDENT-ON* */
+
+bool isKModHeld() {
+  for (Key key : kaleidoscope::live_keys.all()) {
+    if (key == KMod) {
+      return true;
+    }
+  }
+  return false;
+}
+
+#define MAYBE_ENTER if (!isKModHeld()) { Macros.type(PSTR("\n")); } break;
 
 const macro_t *macroAction(uint8_t macro_id, KeyEvent &event) {
   if (!keyToggledOn(event.state)) {
     return MACRO_NONE;
   }
   switch(macro_id) {
-    case M_ESC: MACRO_ESC;
-    case M_1: MACRO_1;
-    case M_2: MACRO_2;
-    case M_O: MACRO_O;
-    case M_UP: return Macros.type(PSTR("../"));
+    case M_ESC: MACRO_ESC; MAYBE_ENTER;
+    case M_1: MACRO_1; MAYBE_ENTER;
+    case M_2: MACRO_2; MAYBE_ENTER;
+    case M_F: MACRO_F; MAYBE_ENTER;
+    case M_G: MACRO_G; MAYBE_ENTER;
+    case M_UP: Macros.type(PSTR("../")); break;
   }
   return MACRO_NONE;
 }
@@ -128,10 +160,14 @@ void setup() {
     kaleidoscope::plugin::Qukey(0, KeyAddr(3, 7), STL(L_FN)),
   )
   CHORDS(
-    CHORD(Key_J, Key_K), Key_Escape,
-    CHORD(Key_K, Key_L), Key_Enter,
-    CHORD(Key_D, Key_F), Key_Tab,
-    CHORD(Key_S, Key_D), M(M_UP),
+    CHORD(Up, Right),           AM_MAKE_MAIN, // Fn + J + K = Fn + Enter
+
+    CHORD(Key_J, Key_K),        Key_Escape,
+    CHORD(Key_K, Key_L),        Key_Enter,
+    CHORD(Key_D, Key_F),        Key_Tab,
+    CHORD(Key_S, Key_D),        M(M_UP),
+    CHORD(Key_S, Key_D, Key_F), LCTRL(RBracket),
+    CHORD(BkSpc, SpcBar),       LALT(LShift), 
   )
   Kaleidoscope.setup();
 }
