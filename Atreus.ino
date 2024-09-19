@@ -96,13 +96,13 @@ KEYMAPS(
     Key_1,      Key_2,     Key_3,         Key_4,     Key_5,  /**/        /**/          Key_6,  Key_7, Key_8,     Key_9,      Key_0,
     BckTick,    ___,       ___,           ___,       ___,    /**/        /**/          Left,   Down,  Up,        Right,      BckTick,
     ___,        ___,       ___,           ___,       ___,    SpaceLeft,  SpaceRight,   ___,    Mute,  VolDown,   VolUp,      BckSlash,
-    ___,        ___,       ___,           ___,       Del,    ___,        ___,          ___,    ___,   ___,       ___,        Sleep
+    Sleep,      ___,       ___,           ___,       Del,    ___,        ___,          ___,    ___,   ___,       ___,        Sleep
   ),
   [L_M]=KEYMAP(
     M(M_ESC),   M(M_1),    M(M_2),        ___,       ___,    /**/        /**/          ___,    ___,   ___,       ___,        ___,
     ___,        ___,       ___,           M(M_F),    M(M_G), /**/        /**/          ___,    ___,   ___,       ___,        ___,
     ___,        ___,       ___,           ___,       ___,    ___,        ___,          ___,    ___,   ___,       ___,        ___,
-    KMod,       ___,       ___,           ___,       ___,    ___,        ___,          ___,    ___,   ___,       ___,        ___
+    Sleep,      ___,       ___,           ___,       ___,    ___,        ___,          KMod,   ___,   ___,       ___,        ___
   ),
   [L_NUM]=KEYMAP(
     AM_SMALLER, AM_NEXT,   AM_PREV,       AM_BIGGER, ___,    /**/        /**/          ___,    Key_7, Key_8,     Key_9,      ___,
